@@ -35,11 +35,11 @@ public class StatisticController {
         rDb.open();
         Date d = statistic.getDate();
         statistic.setDate(new Date(d.getYear(), d.getMonth(), d.getDate()));
-        result = rDb.updateStatistic(statistic.getCallsCount(), statistic.getDuration(), statistic.getDate().toString(),
+        result = rDb.updateStatistic(statistic.getCallsCount(), statistic.getDuration(), statistic.getDate(),
                 statistic.isPostedToServer());
         if (result == 0)
         {
-            result = rDb.putStatistic(statistic.getCallsCount(), statistic.getDuration(), statistic.getDate().toString(),
+            result = rDb.putStatistic(statistic.getCallsCount(), statistic.getDuration(), statistic.getDate(),
                 statistic.isPostedToServer());
         }
         rDb.close();
@@ -51,7 +51,7 @@ public class StatisticController {
         rDb.openRead();
         Cursor cursor = rDb.getStatistic();
         while (!cursor.isAfterLast()) {
-            statistics.add(new Statistic(cursor.getInt(2), cursor.getInt(3), new Date(Date.parse(cursor.getString(4))),
+            statistics.add(new Statistic(cursor.getInt(2), cursor.getInt(3), new Date(cursor.getLong(4)),
                     cursor.getInt(5) == 1));
             cursor.moveToNext();
         }
@@ -94,13 +94,11 @@ public class StatisticController {
         int typeColumn = managedCursor.getColumnIndex(CallLog.Calls.TYPE);
         int dateColumn = managedCursor.getColumnIndex(CallLog.Calls.DATE);
         int durationColumn = managedCursor.getColumnIndex(CallLog.Calls.DURATION);
-        int outgoingCallsDuration = 0;
-        int callsCount = 0;
         sb.append("Call Details :");
         Date tempDate = null;
         Statistic statistic = null;
         try {
-            tempDate = new SimpleDateFormat("dd/MM/yyyy", Locale.ENGLISH).parse("28/02/2014");
+            tempDate = new SimpleDateFormat("dd/MM/yyyy", Locale.ENGLISH).parse("01/02/2014");
         } catch (ParseException e) {
             e.printStackTrace();
         }
@@ -122,24 +120,14 @@ public class StatisticController {
                     statistic = new Statistic(0, 0, tempDate, false);
                 }
                 if (callDuration > 0) {
-                    outgoingCallsDuration += callDuration;
-                    callsCount++;
                     statistic.incCallsCount(1);
                     statistic.incDuration(callDuration);
                 }
-//                case CallLog.Calls.INCOMING_TYPE:
-//                    dir = "INCOMING";
-//                    break;
-//
-//                case CallLog.Calls.MISSED_TYPE:
-//                    dir = "MISSED";
-//                    break;
             }
         }
-        controller.insertStatistic(statistic);
         managedCursor.close();
-        //  postStatistic(SERVER_URL, outgoingCallsDuration);
-        //  return new Statistic(outgoingCallsDuration, callsCount, new Date());
+        if (statistic != null)
+            controller.insertStatistic(statistic);
     }
 
 }

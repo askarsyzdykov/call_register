@@ -8,7 +8,7 @@ import android.util.Log;
 
 public abstract class ProjectDB {
 	protected static final String DATABASE_NAME = "ProjectDB";
-	protected static int DATABASE_VERSION = 2;
+	protected static int DATABASE_VERSION = 4;
 	protected static final String TAG = "ssp";
 
     protected static final String STATISTIC_TABLE = "StatisticTable";
@@ -25,7 +25,7 @@ public abstract class ProjectDB {
 	protected class DBHelper extends SQLiteOpenHelper {
         private final String CREATE_TABLE_TRACKMANS = String.format(
                 "CREATE TABLE %s (_id integer primary key autoincrement,"
-                        + " %s integer, %s integer, %s integer, %s text, %s integer)", STATISTIC_TABLE, STAT_ID,
+                        + " %s integer, %s integer, %s integer, %s numeric, %s integer)", STATISTIC_TABLE, STAT_ID,
                  STAT_CALLS_DURATION, STAT_CALLS_COUNT, STAT_DATE, STAT_POSTED_TO_SERVER);
 
 		public DBHelper(Context context) {

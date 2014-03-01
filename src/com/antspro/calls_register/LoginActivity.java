@@ -19,7 +19,7 @@ import com.antspro.calls_register.receivers.SyncReceiver;
 
 public class LoginActivity extends Activity {
     final String SERVER_URL = "http://143ae3d2.ngrok.com/export.json";
-    static final boolean DEBUG_MODE = true;
+    static final boolean DEBUG_MODE = false;
 
     SharedPreferences sp;
     EditText etPhoneNumber, etUsername, etPassword;
@@ -35,6 +35,26 @@ public class LoginActivity extends Activity {
         etUsername = (EditText)findViewById(R.id.txt_login);
         etPassword = (EditText)findViewById(R.id.txt_password);
 
+        // Нажатие кнопки Войти
+        findViewById(R.id.btn_enter).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String username = etUsername.getText().toString();
+                String password = etPassword.getText().toString();
+                if (TextUtils.isEmpty(username) || TextUtils.isEmpty(password)){
+                    Toast.makeText(LoginActivity.this, "Введите логин и пароль", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                SharedPreferences.Editor editor = sp.edit();
+                editor.putString("username", username);
+                editor.putString("password", password);
+                editor.commit();
+                Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                startActivity(intent);
+                finish();
+            }
+        });
+
         etUsername.setText(sp.getString("username", ""));
         etPassword.setText(sp.getString("password", ""));
 
@@ -43,7 +63,11 @@ public class LoginActivity extends Activity {
             etUsername.setText("s");
             etPassword.setText("s");
         }
-        //StatisticController.getStatistics(this, null);
+
+        if (!TextUtils.isEmpty(etUsername.getText().toString()) && !TextUtils.isEmpty(etPassword.getText().toString())){
+            findViewById(R.id.btn_enter).performClick();
+        }
+
         TelephonyManager tMgr = (TelephonyManager) getApplicationContext().getSystemService(Context.TELEPHONY_SERVICE);
         String phoneNumber = tMgr.getLine1Number();
         etPhoneNumber = (EditText) findViewById(R.id.txt_phone_number);
@@ -55,25 +79,5 @@ public class LoginActivity extends Activity {
         Log.d("ssp_reveiver", "start");
         am.setRepeating(AlarmManager.ELAPSED_REALTIME_WAKEUP,
                 SystemClock.elapsedRealtime(), 10000, pIntent1);  // 24 hours = 86400000
-
-        // Нажатие кнопки Войти
-        findViewById(R.id.btn_enter).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                String username = etUsername.getText().toString();
-                String password = etPassword.getText().toString();
-                if (TextUtils.isEmpty(username) || TextUtils.isEmpty(password)){
-                    Toast.makeText(LoginActivity.this, "Введите логин и пароль", Toast.LENGTH_SHORT).show();
-                    return;
-                }
-                Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-                startActivity(intent);
-                SharedPreferences.Editor editor = sp.edit();
-                editor.putString("username", username);
-                editor.putString("password", password);
-                editor.commit();
-
-            }
-        });
     }
 }

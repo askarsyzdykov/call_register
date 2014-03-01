@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.ListActivity;
 import android.content.Context;
 import android.os.Bundle;
+import android.os.Environment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -31,6 +32,11 @@ public class MainActivity extends ListActivity {
         AllowedPhoneAdapter adapter = new AllowedPhoneAdapter(this,
                 R.layout.statistic_list_item, list);
         this.setListAdapter(adapter);
+    }
+
+    @Override
+    public void onBackPressed(){
+        super.onBackPressed();
     }
 
     private class AllowedPhoneAdapter extends ArrayAdapter<Statistic> {
