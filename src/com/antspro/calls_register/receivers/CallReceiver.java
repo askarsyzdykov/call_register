@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.telephony.TelephonyManager;
 import android.util.Log;
+import com.antspro.calls_register.controllers.StatisticController;
 
 public class CallReceiver extends BroadcastReceiver {
     String phoneNumber = "";
@@ -39,10 +40,7 @@ public class CallReceiver extends BroadcastReceiver {
             }
         }
         if (endCallTime != 0){
-            startCallTime = sp.getLong("startCallTime", 0);
-            long s = endCallTime - startCallTime;
-            long s1 = s / 1000;
-            Log.d("askar", String.valueOf(s1));
+            StatisticController.initStatistics(context);
         }
     }
 }

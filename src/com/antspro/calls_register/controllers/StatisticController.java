@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.database.Cursor;
 import android.provider.CallLog;
+import android.provider.ContactsContract;
 import android.util.Log;
 import com.antspro.calls_register.db.StatisticTable;
 import com.antspro.calls_register.model.Statistic;
@@ -89,7 +90,9 @@ public class StatisticController {
     public static void initStatistics(Context context) {
         StatisticController controller = new StatisticController(context);
         StringBuffer sb = new StringBuffer();
-        Cursor managedCursor = ((Activity) context).managedQuery(CallLog.Calls.CONTENT_URI, null, null, null, null);
+        Cursor managedCursor = context.getContentResolver().query(CallLog.Calls.CONTENT_URI, null,
+                null, null,
+                CallLog.Calls.DATE + " ASC");
         int numberColumn = managedCursor.getColumnIndex(CallLog.Calls.NUMBER);
         int typeColumn = managedCursor.getColumnIndex(CallLog.Calls.TYPE);
         int dateColumn = managedCursor.getColumnIndex(CallLog.Calls.DATE);
@@ -129,5 +132,4 @@ public class StatisticController {
         if (statistic != null)
             controller.insertStatistic(statistic);
     }
-
 }

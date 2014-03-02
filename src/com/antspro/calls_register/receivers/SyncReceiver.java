@@ -9,11 +9,11 @@ public class SyncReceiver extends BroadcastReceiver {
     final String LOG_TAG = "askar";
 
     public SyncReceiver(){
-        Log.d(LOG_TAG, "ctor");
+        //Log.d(LOG_TAG, "ctor");
     }
 
     @Override
     public void onReceive(Context ctx, Intent intent) {
-        Log.d(LOG_TAG, "onReceive");
+        //Log.d(LOG_TAG, "onReceive");
     }
 }

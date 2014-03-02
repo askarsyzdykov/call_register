@@ -2,6 +2,7 @@ package com.antspro.calls_register;
 
 import android.app.Activity;
 import android.app.AlarmManager;
+import android.app.Application;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
@@ -19,7 +20,7 @@ import com.antspro.calls_register.receivers.SyncReceiver;
 
 public class LoginActivity extends Activity {
     final String SERVER_URL = "http://143ae3d2.ngrok.com/export.json";
-    static final boolean DEBUG_MODE = false;
+    static final boolean DEBUG_MODE = true;
 
     SharedPreferences sp;
     EditText etPhoneNumber, etUsername, etPassword;

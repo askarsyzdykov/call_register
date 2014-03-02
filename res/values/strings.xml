@@ -7,4 +7,5 @@
     <string name="password">Пароль</string>
     <string name="phone_number">Номер телефона</string>
     <string name="calls">Исходящие звонки</string>
+    <string name="refresh">Обновить</string>
 </resources>

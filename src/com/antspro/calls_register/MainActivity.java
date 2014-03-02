@@ -3,6 +3,7 @@ package com.antspro.calls_register;
 import android.app.Activity;
 import android.app.ListActivity;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.os.Environment;
 import android.view.LayoutInflater;
@@ -16,13 +17,18 @@ import com.antspro.calls_register.model.Statistic;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
-public class MainActivity extends ListActivity {
+public class MainActivity extends ListActivity implements View.OnClickListener {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.calls);
+        findViewById(R.id.btn_refresh_statistic).setOnClickListener(this);
+    }
 
+    @Override
+    public void onResume(){
+        super.onResume();
         StatisticController controller = new StatisticController(this);
         ArrayList<Statistic> list = controller.getStatistics();
         if (list.size() == 0){
@@ -37,6 +43,17 @@ public class MainActivity extends ListActivity {
     @Override
     public void onBackPressed(){
         super.onBackPressed();
+    }
+
+    @Override
+    public void onClick(View view) {
+        switch (view.getId())
+        {
+            case R.id.btn_refresh_statistic:
+                StatisticController.initStatistics(MainActivity.this);
+                onResume();
+                break;
+        }
     }
 
     private class AllowedPhoneAdapter extends ArrayAdapter<Statistic> {
