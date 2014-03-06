@@ -8,4 +8,11 @@
     <string name="phone_number">Номер телефона</string>
     <string name="calls">Исходящие звонки</string>
     <string name="refresh">Обновить</string>
+    <string name="authorization">Авторизация</string>
+    <string name="change_user">Сменить пользователя</string>
+    <string name="server_url">Адрес сервера</string>
+    <string name="settings">Настройки</string>
+    <string name="synchronization">Синхронизация</string>
+    <string name="on">Вкл</string>
+    <string name="off">Выкл</string>
 </resources>

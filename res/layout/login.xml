@@ -11,6 +11,13 @@
             android:layout_centerInParent="true"
             android:orientation="vertical" android:weightSum="1">
 
+        <TextView android:layout_width="wrap_content"
+                  android:layout_gravity="center"
+                  android:layout_height="wrap_content"
+                  android:layout_marginBottom="10dp"
+                  android:textSize="20sp"
+                  android:text="@string/authorization"/>
+
         <EditText
                 android:id="@+id/txt_login"
                 android:layout_width="match_parent"
@@ -34,15 +41,6 @@
                 android:inputType="textPassword"
                 android:text="AWXNSUIL"/>
 
-        <EditText
-                android:id="@+id/txt_phone_number"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:ems="10"
-                android:gravity="center"
-                android:hint="@string/phone_number"
-                android:text="+7707"/>
-
         <Button
                 android:id="@+id/btn_enter"
                 android:layout_width="wrap_content"
@@ -50,8 +48,21 @@
                 android:layout_gravity="center_horizontal"
                 android:text="@string/enter"
                 android:clickable="true"
+                android:paddingRight="30dp"
+                android:paddingLeft="30dp"
                 android:layout_marginTop="25dp"
                 android:layout_weight="0.16"/>
+
+        <Button
+                android:id="@+id/btn_settings"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:text="@string/settings"
+                android:clickable="true"
+                android:paddingRight="30dp"
+                android:paddingLeft="30dp"
+                android:layout_marginTop="25dp"/>
 
     </LinearLayout>
 

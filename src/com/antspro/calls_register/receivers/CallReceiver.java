@@ -40,6 +40,7 @@ public class CallReceiver extends BroadcastReceiver {
             }
         }
         if (endCallTime != 0){
+            Log.v("askar", "new call");
             StatisticController.initStatistics(context);
         }
     }

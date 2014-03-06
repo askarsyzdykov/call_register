@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.ListActivity;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Environment;
 import android.view.LayoutInflater;
@@ -30,9 +31,9 @@ public class MainActivity extends ListActivity implements View.OnClickListener {
     public void onResume(){
         super.onResume();
         StatisticController controller = new StatisticController(this);
+        StatisticController.initStatistics(this);
         ArrayList<Statistic> list = controller.getStatistics();
         if (list.size() == 0){
-            StatisticController.initStatistics(this);
             list = controller.getStatistics();
         }
         AllowedPhoneAdapter adapter = new AllowedPhoneAdapter(this,
@@ -50,8 +51,9 @@ public class MainActivity extends ListActivity implements View.OnClickListener {
         switch (view.getId())
         {
             case R.id.btn_refresh_statistic:
-                StatisticController.initStatistics(MainActivity.this);
-                onResume();
+                startActivity(new Intent(MainActivity.this, SettingsActivity.class));
+//                StatisticController.initStatistics(MainActivity.this);
+//                onResume();
                 break;
         }
     }
@@ -87,6 +89,8 @@ public class MainActivity extends ListActivity implements View.OnClickListener {
                         .findViewById(R.id.tv_calls_count);
                 holder.tvDate = (TextView) row
                         .findViewById(R.id.tv_date);
+                holder.tvSendToServerStatus = (TextView) row
+                        .findViewById(R.id.tv_send_to_server_status);
 
                 row.setTag(holder);
             } else {
@@ -97,7 +101,13 @@ public class MainActivity extends ListActivity implements View.OnClickListener {
             holder.tvCallsDuration.setText(String.valueOf(statistic.getDuration()));
             holder.tvCallsCount.setText(String.valueOf(statistic.getCallsCount()));
             holder.tvDate.setText(new SimpleDateFormat("dd.MM.yyyy").format(statistic.getDate()));
-
+            if (statistic.isPostedToServer()){
+                holder.tvSendToServerStatus.setText("Отправлен");
+                holder.tvSendToServerStatus.setTextColor(getResources().getColor(R.color.green));
+            } else {
+                holder.tvSendToServerStatus.setText("Не отправлен");
+                holder.tvSendToServerStatus.setTextColor(getResources().getColor(R.color.red));
+            }
             return row;
         }
 
@@ -105,6 +115,7 @@ public class MainActivity extends ListActivity implements View.OnClickListener {
             TextView tvCallsCount;
             TextView tvCallsDuration;
             TextView tvDate;
+            TextView tvSendToServerStatus;
         }
 
     }
