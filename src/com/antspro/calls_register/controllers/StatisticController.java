@@ -58,11 +58,11 @@ public class StatisticController {
                 statistic.isPostedToServer());
         if (result == 0)
         {
-            Log.v("askar", "statistic created");
+            Log.v("askarlog", "statistic created");
             result = rDb.putStatistic(statistic.getCallsCount(), statistic.getDuration(), statistic.getDate(),
                     statistic.isPostedToServer());
         } else {
-            Log.v("askar", "statistic updated");
+            Log.v("askarlog", "statistic updated");
         }
         rDb.close();
         return result;
@@ -129,7 +129,7 @@ public class StatisticController {
 //            retVal = new JSONObject(reader.readLine());
 //            return retVal;
 //        } catch (Exception e) {
-//            Log.e("ssp", e.getMessage());
+//            Log.e("askarlog", e.getMessage());
 //        }
 //        return retVal;
 //    }
@@ -172,7 +172,7 @@ public class StatisticController {
             retVal = new JSONObject(reader.readLine());
             return retVal.getBoolean("success");
         } catch (Exception e) {
-            Log.e("ssp", e.getMessage());
+            Log.e("askarlog", e.getMessage());
             return false;
         }
     }

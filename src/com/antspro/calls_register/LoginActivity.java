@@ -121,11 +121,11 @@ public class LoginActivity extends Activity {
                 am = (AlarmManager) getSystemService(ALARM_SERVICE);
                 intent1 = new Intent(mContext, SyncReceiver.class);
                 pIntent1 = PendingIntent.getBroadcast(mContext, 0, intent1, 0);
-                Log.d("askar", "starting alarm manager");
+                Log.d("askarlog", "starting alarm manager");
                 am.setRepeating(AlarmManager.ELAPSED_REALTIME_WAKEUP,
                         SystemClock.elapsedRealtime()+10000, 1000 * 60 * 60, pIntent1);  // 24 hours = 86400000;
             } else {
-                Log.d("askar", "Alarm is already active");
+                Log.d("askarlog", "Alarm is already active");
             }
         }
 
@@ -159,7 +159,7 @@ public class LoginActivity extends Activity {
         } catch (HttpHostConnectException e) {
             throw new Exception("Нет интернет-соединения");
         } catch (Exception e) {
-            Log.e("askar", e.getMessage());
+            Log.e("askarlog", e.getMessage());
             return false;
         }
     }

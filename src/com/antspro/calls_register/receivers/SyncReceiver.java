@@ -11,9 +11,10 @@ import com.antspro.calls_register.controllers.StatisticController;
 import com.antspro.calls_register.model.Statistic;
 
 import java.util.ArrayList;
+import java.util.logging.Logger;
 
 public class SyncReceiver extends BroadcastReceiver {
-    final String LOG_TAG = "askar";
+    final String LOG_TAG = "askarlog";
 
     public SyncReceiver(){
         //Log.d(LOG_TAG, "ctor");
@@ -36,6 +37,7 @@ public class SyncReceiver extends BroadcastReceiver {
             Log.d(LOG_TAG, "no username/password");
             return;
         }
+
         if (isActive)
             new PushStatisticToServerAsyncTask(ctx).execute();
         else
@@ -68,6 +70,7 @@ public class SyncReceiver extends BroadcastReceiver {
                     }
                 }
             } catch (Exception e) {
+                Log.d(LOG_TAG, e != null ? e.getMessage() : "unknown error");
                 return false;
             }
             return true;
