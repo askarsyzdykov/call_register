@@ -28,12 +28,12 @@ public class MainActivity extends ListActivity implements View.OnClickListener {
     }
 
     @Override
-    public void onResume(){
+    public void onResume() {
         super.onResume();
         StatisticController controller = new StatisticController(this);
         StatisticController.initStatistics(this);
         ArrayList<Statistic> list = controller.getStatistics();
-        if (list.size() == 0){
+        if (list.size() == 0) {
             list = controller.getStatistics();
         }
         AllowedPhoneAdapter adapter = new AllowedPhoneAdapter(this,
@@ -42,14 +42,13 @@ public class MainActivity extends ListActivity implements View.OnClickListener {
     }
 
     @Override
-    public void onBackPressed(){
+    public void onBackPressed() {
         super.onBackPressed();
     }
 
     @Override
     public void onClick(View view) {
-        switch (view.getId())
-        {
+        switch (view.getId()) {
             case R.id.btn_refresh_statistic:
                 startActivity(new Intent(MainActivity.this, SettingsActivity.class));
 //                StatisticController.initStatistics(MainActivity.this);
@@ -101,7 +100,7 @@ public class MainActivity extends ListActivity implements View.OnClickListener {
             holder.tvCallsDuration.setText(String.valueOf(statistic.getDuration()));
             holder.tvCallsCount.setText(String.valueOf(statistic.getCallsCount()));
             holder.tvDate.setText(new SimpleDateFormat("dd.MM.yyyy").format(statistic.getDate()));
-            if (statistic.isPostedToServer()){
+            if (statistic.isPostedToServer()) {
                 holder.tvSendToServerStatus.setText("Отправлен");
                 holder.tvSendToServerStatus.setTextColor(getResources().getColor(R.color.green));
             } else {

@@ -46,8 +46,7 @@ public class LoginActivity extends Activity {
         sp = getSharedPreferences("com.exampe.calls_register", Context.MODE_PRIVATE);
         etUsername = (EditText) findViewById(R.id.txt_login);
         etPassword = (EditText) findViewById(R.id.txt_password);
-        if (TextUtils.isEmpty(sp.getString("server_url", "")))
-        {
+        if (TextUtils.isEmpty(sp.getString("server_url", ""))) {
             SharedPreferences.Editor editor = sp.edit();
             editor.putString("server_url", "http://162.243.52.247/");
             editor.commit();
@@ -95,8 +94,8 @@ public class LoginActivity extends Activity {
 
         @Override
         protected void onPostExecute(Object result) {
-            if (result instanceof Exception){
-                Toast.makeText(mContext, ((Exception)result).getMessage(), Toast.LENGTH_SHORT).show();
+            if (result instanceof Exception) {
+                Toast.makeText(mContext, ((Exception) result).getMessage(), Toast.LENGTH_SHORT).show();
                 return;
             }
             if (!Boolean.valueOf(result.toString())) {
@@ -116,14 +115,13 @@ public class LoginActivity extends Activity {
                     new Intent(mContext, SyncReceiver.class),
                     PendingIntent.FLAG_NO_CREATE) != null);
 
-            if (!alarmUp)
-            {
+            if (!alarmUp) {
                 am = (AlarmManager) getSystemService(ALARM_SERVICE);
                 intent1 = new Intent(mContext, SyncReceiver.class);
                 pIntent1 = PendingIntent.getBroadcast(mContext, 0, intent1, 0);
                 Log.d("askarlog", "starting alarm manager");
                 am.setRepeating(AlarmManager.ELAPSED_REALTIME_WAKEUP,
-                        SystemClock.elapsedRealtime()+10000, 1000 * 60 * 60, pIntent1);  // 24 hours = 86400000;
+                        SystemClock.elapsedRealtime() + 10000, 1000 * 60 * 60, pIntent1);  // 24 hours = 86400000;
             } else {
                 Log.d("askarlog", "Alarm is already active");
             }

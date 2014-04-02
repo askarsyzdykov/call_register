@@ -24,22 +24,22 @@ public class CallReceiver extends BroadcastReceiver {
             SharedPreferences.Editor editor = sp.edit();
             editor.putLong("startCallTime", startCallTime);
             editor.commit();
-        } else if (intent.getAction().equals("android.intent.action.PHONE_STATE")){
+        } else if (intent.getAction().equals("android.intent.action.PHONE_STATE")) {
             String phone_state = intent.getStringExtra(TelephonyManager.EXTRA_STATE);
             if (phone_state.equals(TelephonyManager.EXTRA_STATE_RINGING)) {
                 //телефон звонит, получаем входящий номер
                 phoneNumber = intent.getStringExtra(TelephonyManager.EXTRA_INCOMING_NUMBER);
                 Log.d("askar", "EXTRA_STATE_RINGING - " + phoneNumber);
-            } else if (phone_state.equals(TelephonyManager.EXTRA_STATE_OFFHOOK)){
+            } else if (phone_state.equals(TelephonyManager.EXTRA_STATE_OFFHOOK)) {
                 //телефон находится в режиме звонка (набор номера / разговор)
                 Log.d("askar", "EXTRA_STATE_OFFHOOK - " + phoneNumber);
-            } else if (phone_state.equals(TelephonyManager.EXTRA_STATE_IDLE)){
+            } else if (phone_state.equals(TelephonyManager.EXTRA_STATE_IDLE)) {
                 //телефон находиться в ждущем режиме. Это событие наступает по окончанию разговора, когда мы уже знаем номер и факт звонка
                 Log.d("askar", "EXTRA_STATE_IDLE - " + phoneNumber);
                 endCallTime = System.currentTimeMillis();
             }
         }
-        if (endCallTime != 0){
+        if (endCallTime != 0) {
             Log.v("askarlog", "new call");
             StatisticController.initStatistics(context);
         }

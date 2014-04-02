@@ -16,7 +16,7 @@ import java.util.logging.Logger;
 public class SyncReceiver extends BroadcastReceiver {
     final String LOG_TAG = "askarlog";
 
-    public SyncReceiver(){
+    public SyncReceiver() {
         //Log.d(LOG_TAG, "ctor");
     }
 
@@ -24,16 +24,14 @@ public class SyncReceiver extends BroadcastReceiver {
     public void onReceive(Context ctx, Intent intent) {
         SharedPreferences sp = ctx.getSharedPreferences("com.exampe.calls_register", Context.MODE_PRIVATE);
         boolean isActive = sp.getBoolean("sync_active", true);
-        String serverUrl = sp.getString("server_url","") + "/export.json";
-        String username = sp.getString("username","");
-        String password = sp.getString("password","");
-        if (TextUtils.isEmpty(serverUrl))
-        {
+        String serverUrl = sp.getString("server_url", "") + "/export.json";
+        String username = sp.getString("username", "");
+        String password = sp.getString("password", "");
+        if (TextUtils.isEmpty(serverUrl)) {
             Log.d(LOG_TAG, "no server url");
             return;
         }
-        if (TextUtils.isEmpty(username) || TextUtils.isEmpty(password))
-        {
+        if (TextUtils.isEmpty(username) || TextUtils.isEmpty(password)) {
             Log.d(LOG_TAG, "no username/password");
             return;
         }
@@ -63,8 +61,8 @@ public class SyncReceiver extends BroadcastReceiver {
             StatisticController controller = new StatisticController(mContext);
             ArrayList<Statistic> list = controller.getNotPostedToServerStatistics();
             try {
-                if (controller.postStatistics(list)){
-                    for (Statistic statistic : list){
+                if (controller.postStatistics(list)) {
+                    for (Statistic statistic : list) {
                         statistic.setPostedToServer(true);
                         controller.insertStatistic(statistic);
                     }

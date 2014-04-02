@@ -40,8 +40,8 @@ public class StatisticController {
         rDb = new StatisticTable(c);
         mContext = c;
         SharedPreferences sp = c.getSharedPreferences("com.exampe.calls_register", Context.MODE_PRIVATE);
-        mUsername = sp.getString("username","");
-        mPassword = sp.getString("password","");
+        mUsername = sp.getString("username", "");
+        mPassword = sp.getString("password", "");
     }
 
     public long insertStatistic(Statistic statistic) {
@@ -49,15 +49,14 @@ public class StatisticController {
         statistic.setDate(new Date(d.getYear(), d.getMonth(), d.getDate()));
         Statistic s = getStatisticForDate(statistic.getDate());
         if (s != null && s.getCallsCount() == statistic.getCallsCount() && s.getDuration() == s.getDuration() &&
-                s.isPostedToServer()){
+                s.isPostedToServer()) {
             return 0;
         }
         long result;
         rDb.open();
         result = rDb.updateStatistic(statistic.getCallsCount(), statistic.getDuration(), statistic.getDate(),
                 statistic.isPostedToServer());
-        if (result == 0)
-        {
+        if (result == 0) {
             Log.v("askarlog", "statistic created");
             result = rDb.putStatistic(statistic.getCallsCount(), statistic.getDuration(), statistic.getDate(),
                     statistic.isPostedToServer());
@@ -86,7 +85,7 @@ public class StatisticController {
         Statistic statistic = null;
         rDb.openRead();
         Cursor cursor = rDb.getStatisticForDate(d);
-        if (cursor != null && cursor.getCount() > 0){
+        if (cursor != null && cursor.getCount() > 0) {
             statistic = new Statistic(cursor.getInt(2), cursor.getInt(3), new Date(cursor.getLong(4)),
                     cursor.getInt(5) == 1);
         }
@@ -135,11 +134,11 @@ public class StatisticController {
 //    }
 
     public boolean postStatistics(ArrayList<Statistic> statistics) throws Exception {
-        if (TextUtils.isEmpty(mUsername) || TextUtils.isEmpty(mPassword)){
+        if (TextUtils.isEmpty(mUsername) || TextUtils.isEmpty(mPassword)) {
             throw new Exception("Не указаны логин или пароль");
         }
-        SharedPreferences sp =  mContext.getSharedPreferences("com.exampe.calls_register", Context.MODE_PRIVATE);
-        String serverUrl = sp.getString("server_url","") + "/export.json";
+        SharedPreferences sp = mContext.getSharedPreferences("com.exampe.calls_register", Context.MODE_PRIVATE);
+        String serverUrl = sp.getString("server_url", "") + "/export.json";
         if (statistics.size() == 0) return false;
         HttpClient httpclient = new DefaultHttpClient();
         HttpPost httpPost = new HttpPost(serverUrl);
@@ -152,7 +151,7 @@ public class StatisticController {
             json.put("login", mUsername);
             json.put("password", mPassword);
             SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-            for (Statistic statistic : statistics){
+            for (Statistic statistic : statistics) {
                 JSONObject jsonStat = new JSONObject();
                 jsonStat.put("count", statistic.getCallsCount());
                 jsonStat.put("duration", statistic.getDuration());
@@ -183,7 +182,7 @@ public class StatisticController {
             byte[] array = md.digest(s.getBytes());
             StringBuffer sb = new StringBuffer();
             for (int i = 0; i < array.length; ++i) {
-                sb.append(Integer.toHexString((array[i] & 0xFF) | 0x100).substring(1,3));
+                sb.append(Integer.toHexString((array[i] & 0xFF) | 0x100).substring(1, 3));
             }
             return sb.toString();
         } catch (java.security.NoSuchAlgorithmException e) {
@@ -191,8 +190,7 @@ public class StatisticController {
         return null;
     }
 
-    public static Date addDays(Date date, int days)
-    {
+    public static Date addDays(Date date, int days) {
         Calendar cal = Calendar.getInstance();
         cal.setTime(date);
         cal.add(Calendar.DATE, days); //minus number would decrement the days
@@ -216,16 +214,16 @@ public class StatisticController {
         sb.append("Call Details :");
         Date tempDate = null;
         Statistic statistic = null;
-        tempDate = new Date(now.getYear(), now.getMonth(), now.getDate()-1); //new SimpleDateFormat("dd/MM/yyyy", Locale.ENGLISH).parse("01/02/2014");
+        tempDate = new Date(now.getYear(), now.getMonth(), now.getDate() - 1); //new SimpleDateFormat("dd/MM/yyyy", Locale.ENGLISH).parse("01/02/2014");
         while (managedCursor.moveToNext()) {
             String callDate = managedCursor.getString(dateColumn);
             Date callDayTime = new Date(Long.valueOf(callDate));
             int callDuration = Integer.parseInt(managedCursor.getString(durationColumn));
-            if (callDayTime.getTime() >= tempDate.getTime()){
+            if (callDayTime.getTime() >= tempDate.getTime()) {
                 if (statistic == null || callDayTime.getDate() != tempDate.getDate() || callDayTime.getMonth() != tempDate.getMonth()
-                        || callDayTime.getYear() != tempDate.getYear()){
+                        || callDayTime.getYear() != tempDate.getYear()) {
                     tempDate = callDayTime;
-                    if (statistic != null){
+                    if (statistic != null) {
                         controller.insertStatistic(statistic);
                     }
                     statistic = new Statistic(0, 0, tempDate, false);

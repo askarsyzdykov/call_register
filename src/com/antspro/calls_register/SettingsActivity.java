@@ -19,7 +19,7 @@ public class SettingsActivity extends Activity {
         sp = getSharedPreferences("com.exampe.calls_register", Context.MODE_PRIVATE);
 
         etServerUrl = (EditText) findViewById(R.id.et_server_url);
-        etServerUrl.setText(sp.getString("server_url","http://"));
+        etServerUrl.setText(sp.getString("server_url", "http://"));
 
         findViewById(R.id.btn_change_user).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -33,7 +33,7 @@ public class SettingsActivity extends Activity {
             }
         });
 
-        ToggleButton tbtn = (ToggleButton)findViewById(R.id.tbtn_sync_on_off);
+        ToggleButton tbtn = (ToggleButton) findViewById(R.id.tbtn_sync_on_off);
         tbtn.setChecked(sp.getBoolean("sync_active", true));
         tbtn.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
@@ -45,7 +45,7 @@ public class SettingsActivity extends Activity {
         });
     }
 
-    public void onPause(){
+    public void onPause() {
         super.onPause();
         String serverUrl = etServerUrl.getText().toString();
         if (serverUrl.equals("http://"))
